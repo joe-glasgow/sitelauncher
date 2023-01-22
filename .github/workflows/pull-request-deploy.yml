@@ -33,7 +33,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           env: ${{ env.STAGE }}
 
-
       - name: checkout the files
         uses: actions/checkout@v2
 
