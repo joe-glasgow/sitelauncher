@@ -29,6 +29,7 @@ jobs:
         uses: bobheadxi/deployments@v0.5.2
         id: deployment
         with:
+          debug: true
           step: start
           token: ${{ secrets.GITHUB_TOKEN }}
           env: ${{ env.STAGE }}
