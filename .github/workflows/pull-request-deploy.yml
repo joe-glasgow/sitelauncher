@@ -6,12 +6,15 @@ on:
 
 permissions:
  id-token: write
- contents: read# This is required for actions/checkout@v2
+ contents: write
+ pull-requests: write 
+ deployments: write
 
 jobs:
-  env:
-    AWS_DEFAULT_REGION: eu-west-1
   deploy:
+    concurrency: deploy-pr-app-${{ github.head_ref }}
+    env:
+      AWS_DEFAULT_REGION: eu-west-1
     if: |
       (github.event.action == 'labeled' && github.event.label.name == ':rocket: deploy') ||
       (github.event.action != 'labeled' && contains(github.event.pull_request.labels.*.name, ':rocket: deploy'))
@@ -24,15 +27,15 @@ jobs:
         run: echo "STAGE=pr-${{ github.event.number }}-${{ env.GITHUB_HEAD_REF_SLUG }}" >> $GITHUB_ENV
 
       - name: create a github deployment
-        uses: bobheadxi/deployments@v0.5.2
+        uses: bobheadxi/deployments@v1
         id: deployment
         with:
+          debug: true
           step: start
           token: ${{ secrets.GITHUB_TOKEN }}
           env: ${{ env.STAGE }}
           ref: ${{ github.head_ref }}
-          no_override: false
-          transient: true
+          override: false
 
       - name: checkout the files
         uses: actions/checkout@v2
@@ -43,13 +46,13 @@ jobs:
       - name: configureawscredentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-              role-to-assume: arn:aws:iam::215092762020:role/github-action-policy
-              role-session-name: githubrolesession
-              aws-region: ${{env.AWS_DEFAULT_REGION}}
+          role-to-assume: arn:aws:iam::215092762020:role/github-action-policy
+          role-session-name: githubrolesession
+          aws-region: ${{env.AWS_DEFAULT_REGION}}
 
       - name: deploy the stack on AWS
         id: cdk_deploy
-        run: npm deploy
+        run: npm run deploy
 
       - name: update the github deployment status
         uses: bobheadxi/deployments@v0.5.2

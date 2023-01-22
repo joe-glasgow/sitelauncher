@@ -9,9 +9,9 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "deploy": "cdk deploy \"SiteLauncher-${STAGE}\" --require-approval never --outputs-file cdk.out.json",
-    "postdeploy": "node --eval \"console.log('::set-output name=env_url::' + require('./cdk.out.json')['AwesomeStack-${STAGE}'].DeploymentUrl)\"",
-    "destroy": "cdk destroy \"SiteLauncher-${STAGE}\" --force"
+    "deploy": "cdk deploy \"SiteLauncherStack-${STAGE}\" --require-approval never --outputs-file cdk.out.json",
+    "postdeploy": "node --eval \"console.log('::set-output name=env_url::' + require('./cdk.out.json')['SiteLauncherStack-${STAGE}'].DeploymentUrl)\"",
+    "destroy": "cdk destroy \"SiteLauncherStack-${STAGE}\" --force"
   },
   "devDependencies": {
     "@tsconfig/node18": "^1.0.1",

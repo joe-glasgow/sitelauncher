@@ -4,7 +4,7 @@ import * as cdk from '@aws-cdk/core';
 import SiteLauncherStack from '../lib/sitelauncher-stack';
 
 const app = new cdk.App();
-const stackName = 'SitelauncherStack-' + process.env.STAGE;
+const stackName = 'SiteLauncherStack-' + process.env.STAGE;
 new SiteLauncherStack(app, stackName, {
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
