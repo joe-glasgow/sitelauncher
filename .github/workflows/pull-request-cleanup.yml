@@ -6,6 +6,7 @@ on:
 
 jobs:
   clean-up:
+    concurrency: deploy-pr-app-${{ github.head_ref }}
     env:
       AWS_DEFAULT_REGION: eu-west-1
     if: |
@@ -30,9 +31,9 @@ jobs:
       - name: configureawscredentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-              role-to-assume: arn:aws:iam::215092762020:role/github-action-policy
-              role-session-name: githubrolesession
-              aws-region: ${{env.AWS_DEFAULT_REGION}}
+          role-to-assume: arn:aws:iam::215092762020:role/github-action-policy
+          role-session-name: githubrolesession
+          aws-region: ${{env.AWS_DEFAULT_REGION}}
 
       - name: destroy the stack on AWS
         run: npm destroy
