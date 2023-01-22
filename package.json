@@ -10,7 +10,7 @@
     "test": "jest",
     "cdk": "cdk",
     "deploy": "cdk deploy \"SiteLauncher-${STAGE}\" --require-approval never --outputs-file cdk.out.json",
-    "postdeploy": "node --eval \"console.log('::set-output name=env_url::' + require('./cdk.out.json')['AwesomeStack-${STAGE}'].DeploymentUrl)\"",
+    "postdeploy": "node --eval \"console.log('::set-output name=env_url::' + require('./cdk.out.json')['SiteLauncher-${STAGE}'].DeploymentUrl)\"",
     "destroy": "cdk destroy \"SiteLauncher-${STAGE}\" --force"
   },
   "devDependencies": {

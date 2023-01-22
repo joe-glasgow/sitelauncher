@@ -6,13 +6,12 @@ on:
 
 permissions:
  id-token: write
- contents: read
+ contents: write
+ pull-requests: write 
 
 jobs:
   deploy:
-    permissions:
-       id-token: write
-       contents: read
+    concurrency: deploy-pr-app-${{ github.head_ref }}
     env:
       AWS_DEFAULT_REGION: eu-west-1
     if: |
