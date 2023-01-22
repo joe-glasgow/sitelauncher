@@ -8,6 +8,7 @@ permissions:
  id-token: write
  contents: write
  pull-requests: write 
+ deployments: write
 
 jobs:
   deploy:
@@ -29,9 +30,12 @@ jobs:
         uses: bobheadxi/deployments@v1
         id: deployment
         with:
+          debug: true
           step: start
           token: ${{ secrets.GITHUB_TOKEN }}
           env: ${{ env.STAGE }}
+          ref: ${{ github.head_ref }}
+          override: false
 
       - name: checkout the files
         uses: actions/checkout@v2
