@@ -9,9 +9,9 @@ permissions:
  contents: read
 
 jobs:
-  env:
-    AWS_DEFAULT_REGION: eu-west-1
   deploy:
+    env:
+      AWS_DEFAULT_REGION: eu-west-1
     if: |
       (github.event.action == 'labeled' && github.event.label.name == ':rocket: deploy') ||
       (github.event.action != 'labeled' && contains(github.event.pull_request.labels.*.name, ':rocket: deploy'))

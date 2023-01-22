@@ -6,6 +6,8 @@ on:
 
 jobs:
   clean-up:
+    env:
+      AWS_DEFAULT_REGION: eu-west-1
     if: |
       (github.event.action == 'unlabeled' && github.event.label.name == ':rocket: deploy') ||
       (github.event.action == 'closed' && contains(github.event.pull_request.labels.*.name, ':rocket: deploy'))
