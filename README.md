@@ -22,7 +22,7 @@ There are `deploy`, `postdeploy` and `destroy` stages used in the actions, detai
 
 ### Action: Pull Request Deploy
 
-Any Pull Requests containing: `:rocket: deploy` as a label will trigger this action.
+Any Pull Requests containing: " :rocket: deploy " as a label will trigger this action.
 
 The job configures AWS credentials, in this case using OIDC and an IAM Role - https://www.automat-it.com/post/using-github-actions-with-aws-iam-roles , replacing: 
 
