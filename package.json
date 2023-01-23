@@ -9,6 +9,7 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
+    "synth": "cdk synth \"SiteLauncherStack-${STAGE}\" --require-approval never --outputs-file cdk.out.json",
     "deploy": "cdk deploy \"SiteLauncherStack-${STAGE}\" --require-approval never --outputs-file cdk.out.json",
     "postdeploy": "node --eval \"console.log('::set-output name=env_url::' + require('./cdk.out.json')['SiteLauncherStack-${STAGE}'].DeploymentUrl)\"",
     "destroy": "cdk destroy \"SiteLauncherStack-${STAGE}\" --force"
