@@ -2,13 +2,14 @@
   "name": "sitepreview",
   "version": "0.1.0",
   "bin": {
-    "sitepreview": "bin/sitepreview.js"
+    "sitepreview": "bin/sitepreview.ts"
   },
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
+    "synth": "cdk synth \"SitePreviewStack-${STAGE}\" --require-approval never --outputs-file cdk.out.json",
     "deploy": "cdk deploy \"SitePreviewStack-${STAGE}\" --require-approval never --outputs-file cdk.out.json",
     "postdeploy": "node --eval \"console.log('::set-output name=env_url::' + require('./cdk.out.json')['SitePreviewStack-${STAGE}'].DeploymentUrl)\"",
     "destroy": "cdk destroy \"SitePreviewStack-${STAGE}\" --force"
