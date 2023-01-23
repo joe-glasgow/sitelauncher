@@ -1,14 +1,39 @@
-# Welcome to your CDK TypeScript project
+# SiteLauncher
 
-This is a blank project for CDK development with TypeScript.
+Uses Github Actions to deploy a preview environment of a static website to AWS.
+Heavily borrowed from Julien Goux and his amazing example: https://github.com/jgoux/preview-environments-per-pull-request-using-aws-cdk-and-github-actions#cdk
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
-## Useful commands
+## Structure
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `cdk deploy`      deploy this stack to your default AWS account/region
-* `cdk diff`        compare deployed stack with current state
-* `cdk synth`       emits the synthesized CloudFormation template
+The `website` folder contains an example of a static `index.html` folder to serve up content
+
+Within `lib`, the `sitelauncher-stack` creates a new Cloudfront distribution which points to an s3 butcket serving our static `website` folder.
+
+## How it works
+
+If this is your first time using the [AWS CDK](https://docs.aws.amazon.com/cdk/v2/guide/work-with-cdk-typescript.html), you will have to bootstrap your AWS environment first: 
+
+    $ CDK_NEW_BOOTSTRAP=1 cdk bootstrap --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess
+
+The Github Actions within `.github/workflows` are responsible for ultimately deploying our code to AWS.
+
+There are `deploy`, `postdeploy` and `destroy` stages used in the actions, detailed in `package.json`. Succinctly, these are called to create or destroy the preview environment based on the `STAGE` variable which is a string, comprising the PR number and branch name. 
+
+### Action: Pull Request Deploy
+
+Any Pull Requests containing: `:rocket: deploy` as a label will trigger this action.
+
+The job configures AWS credentials, in this case using OIDC and an IAM Role - https://www.automat-it.com/post/using-github-actions-with-aws-iam-roles , replacing: 
+
+    ${{ secrets.AWS_ROLE_ARN }} 
+    
+in your [Github Action](https://docs.github.com/en/actions/security-guides/encrypted-secrets) secrets with the ARN of your own github-actions-role. 
+
+You may need to add additional policies to this role depending on the actions of your stack. You may need to an inline policy for `sts::AssumeRole`. 
+### Action: Pull Request Cleanup
+
+Removal of the deploy label (or merge/delete) of the deplyed Pull Request will call this action into play.
+
+It will trigger the `cdk destroy` command in package.json and tear down your environment
+
