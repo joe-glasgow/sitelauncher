@@ -50,6 +50,10 @@ jobs:
           role-session-name: githubrolesession
           aws-region: ${{env.AWS_DEFAULT_REGION}}
 
+      - name: run synth
+        id: cdk_synth
+        run: npm run synth
+
       - name: deploy the stack on AWS
         id: cdk_deploy
         run: npm run deploy
