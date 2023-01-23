@@ -1,5 +1,6 @@
 {
-  "app": "npx ts-node --prefer-ts-exts bin/sitelauncher.ts",
+  "name": "sitepreview",
+  "app": "npx ts-node --prefer-ts-exts bin/sitepreview.ts",
   "watch": {
     "include": [
       "**"
