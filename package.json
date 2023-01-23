@@ -2,7 +2,7 @@
   "name": "sitepreview",
   "version": "0.1.0",
   "bin": {
-    "sitepreview": "bin/sitepreview.ts"
+    "sitepreview": "bin/sitepreview.js"
   },
   "scripts": {
     "build": "tsc",
